@@ -2,6 +2,10 @@ package edu.miu.cs544.awais.EventManagementService.shared.domain;
 
 import edu.miu.cs544.awais.EventManagementService.shared.enums.UserRole;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 public abstract class User {
@@ -10,13 +14,22 @@ public abstract class User {
     private Long emId;
 
     private String username;
+
+    @Column(unique = true)
     private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User() {}
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    public User() {
+    }
 
     public User(String username, String email, String password, UserRole role) {
         this.username = username;
@@ -25,7 +38,7 @@ public abstract class User {
         this.role = role;
     }
 
-    public Long getId() {
+    public Long getEmId() {
         return emId;
     }
 

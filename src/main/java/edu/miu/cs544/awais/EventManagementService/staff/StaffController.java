@@ -2,6 +2,8 @@ package edu.miu.cs544.awais.EventManagementService.staff;
 
 import edu.miu.cs544.awais.EventManagementService.staff.dto.CreateStaffDTO;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.StaffDTO;
+import edu.miu.cs544.awais.EventManagementService.staff.dto.UpdateStaffDTO;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +20,7 @@ public class StaffController {
     }
 
     @PostMapping
-    public ResponseEntity<StaffDTO> createStaff(@RequestBody CreateStaffDTO request) {
+    public ResponseEntity<StaffDTO> createStaff(@RequestBody @Valid CreateStaffDTO request) {
         return staffService.createStaff(request);
     }
 
@@ -33,7 +35,7 @@ public class StaffController {
     }
 
     @PutMapping("/{emId}")
-    public ResponseEntity<StaffDTO> updateStaff(@PathVariable Long emId, @RequestBody CreateStaffDTO request) {
+    public ResponseEntity<StaffDTO> updateStaff(@PathVariable Long emId, @RequestBody UpdateStaffDTO request) {
         return staffService.updateStaff(emId, request);
     }
 

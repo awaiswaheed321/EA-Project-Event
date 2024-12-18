@@ -1,9 +1,13 @@
 package edu.miu.cs544.awais.EventManagementService.location.domain;
 
-import edu.miu.cs544.awais.EventManagementService.event.Event;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 public class Location {
@@ -18,10 +22,14 @@ public class Location {
     private String state;
     private String zip;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-    private List<Event> events;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    public Location() {}
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    public Location() {
+    }
 
     public Location(String locationName, String street, String city, String state, String zip) {
         this.locationName = locationName;
@@ -33,10 +41,6 @@ public class Location {
 
     public Long getEmId() {
         return emId;
-    }
-
-    public void setEmId(Long emId) {
-        this.emId = emId;
     }
 
     public String getLocationName() {
@@ -77,13 +81,5 @@ public class Location {
 
     public void setZip(String zip) {
         this.zip = zip;
-    }
-
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
     }
 }

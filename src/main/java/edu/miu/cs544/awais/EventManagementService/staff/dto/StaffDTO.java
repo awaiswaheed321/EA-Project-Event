@@ -1,6 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.staff.dto;
 
 import edu.miu.cs544.awais.EventManagementService.staff.StaffRole;
+import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 
 public class StaffDTO {
 
@@ -9,13 +10,14 @@ public class StaffDTO {
     private String email;
     private StaffRole staffRole;
 
-    public StaffDTO() {}
+    public StaffDTO() {
+    }
 
-    public StaffDTO(Long id, String username, String email, StaffRole staffRole) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.staffRole = staffRole;
+    public StaffDTO(Staff staff) {
+        this.id = staff.getEmId();
+        this.username = staff.getUsername();
+        this.email = staff.getEmail();
+        this.staffRole = staff.getStaffRole();
     }
 
     public Long getId() {

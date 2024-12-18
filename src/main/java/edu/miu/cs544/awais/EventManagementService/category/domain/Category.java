@@ -1,10 +1,13 @@
-package edu.miu.cs544.awais.EventManagementService.category;
+package edu.miu.cs544.awais.EventManagementService.category.domain;
 
-import edu.miu.cs544.awais.EventManagementService.event.Event;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 public class Category {
@@ -15,16 +18,18 @@ public class Category {
     private String name;
     private String description;
 
-    @ManyToMany
-    List<Event> events = new ArrayList<>();
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     public Category() {
     }
 
-    public Category(String name, String description, List<Event> events) {
+    public Category(String name, String description) {
         this.name = name;
         this.description = description;
-        this.events = events;
     }
 
     public long getEmId() {
@@ -45,16 +50,5 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void addEvent(Event event) {
-        if (events == null) {
-            events = new ArrayList<>();
-        }
-        this.events.add(event);
     }
 }

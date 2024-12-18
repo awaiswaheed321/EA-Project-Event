@@ -1,9 +1,11 @@
-package edu.miu.cs544.awais.EventManagementService.event;
+package edu.miu.cs544.awais.EventManagementService.event.domain;
 
-import edu.miu.cs544.awais.EventManagementService.category.Category;
+import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
 import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,20 +23,26 @@ public class Event {
     private Integer totalSeats;
     private Integer availableSeats;
 
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany
     private List<Staff> staff = new ArrayList<>();
 
     @ManyToOne
     private Location location;
 
-    @ManyToMany
-    private List<Category> categories = new ArrayList<>();
+    @ManyToOne
+    private Category category;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     public Event() {
     }
 
     public Event(String name, String description, LocalDateTime date, Integer totalSeats, Integer availableSeats,
-                 List<Staff> staff, Location location, List<Category> categories) {
+                 List<Staff> staff, Location location, Category category) {
         this.name = name;
         this.description = description;
         this.date = date;
@@ -42,7 +50,7 @@ public class Event {
         this.availableSeats = availableSeats;
         this.staff = staff;
         this.location = location;
-        this.categories = categories;
+        this.category = category;
     }
 
     public long getEmId() {
@@ -105,11 +113,11 @@ public class Event {
         this.location = location;
     }
 
-    public List<Category> getCategories() {
-        return categories;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

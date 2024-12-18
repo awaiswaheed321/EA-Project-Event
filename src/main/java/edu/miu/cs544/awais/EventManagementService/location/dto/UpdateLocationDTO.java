@@ -1,20 +1,13 @@
 package edu.miu.cs544.awais.EventManagementService.location.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-
-public class CreateLocationDTO {
-    @NotEmpty(message = "Location Name can not be empty")
+public class UpdateLocationDTO {
     private String locationName;
-    @NotEmpty(message = "Location Street can not be empty")
     private String street;
-    @NotEmpty(message = "Location City can not be empty")
     private String city;
-    @NotEmpty(message = "Location State can not be empty")
     private String state;
-    @NotEmpty(message = "Location Zip can not be empty")
     private String zip;
 
-    public CreateLocationDTO() {
+    public UpdateLocationDTO() {
     }
 
     public String getLocationName() {
@@ -57,4 +50,3 @@ public class CreateLocationDTO {
         this.zip = zip;
     }
 }
-

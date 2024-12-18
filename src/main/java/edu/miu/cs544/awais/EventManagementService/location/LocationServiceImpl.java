@@ -3,7 +3,8 @@ package edu.miu.cs544.awais.EventManagementService.location;
 import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import edu.miu.cs544.awais.EventManagementService.location.dto.CreateLocationDTO;
 import edu.miu.cs544.awais.EventManagementService.location.dto.LocationDTO;
-import jakarta.persistence.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.location.dto.UpdateLocationDTO;
+import edu.miu.cs544.awais.EventManagementService.shared.exceptionhandler.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -43,15 +44,29 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public ResponseEntity<LocationDTO> updateLocation(Long emId, CreateLocationDTO request) {
+    public ResponseEntity<LocationDTO> updateLocation(Long emId, UpdateLocationDTO request) {
         Location location = findLocationById(emId);
-        location.setLocationName(request.getLocationName());
-        location.setStreet(request.getStreet());
-        location.setCity(request.getCity());
-        location.setState(request.getState());
-        location.setZip(request.getZip());
+        updateLocationData(location, request);
         Location updatedLocation = locationRepository.save(location);
         return ResponseEntity.ok(new LocationDTO(updatedLocation));
+    }
+
+    private void updateLocationData(Location location, UpdateLocationDTO request) {
+        if (request.getLocationName() != null) {
+            location.setLocationName(request.getLocationName());
+        }
+        if (request.getStreet() != null) {
+            location.setStreet(request.getStreet());
+        }
+        if (request.getCity() != null) {
+            location.setCity(request.getCity());
+        }
+        if (request.getState() != null) {
+            location.setState(request.getState());
+        }
+        if (request.getZip() != null) {
+            location.setZip(request.getZip());
+        }
     }
 
     @Override
@@ -60,8 +75,8 @@ public class LocationServiceImpl implements LocationService {
         locationRepository.delete(location);
     }
 
-    private Location findLocationById(Long emId) {
+    public Location findLocationById(Long emId) {
         return locationRepository.findById(emId)
-                .orElseThrow(() -> new EntityNotFoundException("Location not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Location not found for id " + emId));
     }
 }

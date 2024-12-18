@@ -1,19 +1,13 @@
 package edu.miu.cs544.awais.EventManagementService.staff.dto;
 
 import edu.miu.cs544.awais.EventManagementService.staff.StaffRole;
-import jakarta.validation.constraints.NotEmpty;
 
-public class CreateStaffDTO {
-    @NotEmpty(message = "Staff Name must not be empty")
+public class UpdateStaffDTO {
     private String username;
-    @NotEmpty(message = "Staff Email must not be empty")
-    private String email;
-    @NotEmpty(message = "Staff password must not be empty")
     private String password;
-    @NotEmpty(message = "Staff Role must not be empty")
     private StaffRole staffRole;
 
-    public CreateStaffDTO() {
+    public UpdateStaffDTO() {
     }
 
     public String getUsername() {
@@ -22,14 +16,6 @@ public class CreateStaffDTO {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {

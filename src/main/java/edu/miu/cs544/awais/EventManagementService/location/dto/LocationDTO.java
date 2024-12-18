@@ -11,6 +11,9 @@ public class LocationDTO {
     private String state;
     private String zip;
 
+    public LocationDTO() {
+    }
+
     public LocationDTO(Location location) {
         this.id = location.getEmId();
         this.locationName = location.getLocationName();
