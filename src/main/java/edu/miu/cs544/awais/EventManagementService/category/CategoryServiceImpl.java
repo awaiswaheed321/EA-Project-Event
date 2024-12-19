@@ -1,7 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.category;
 
 import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
-import edu.miu.cs544.awais.EventManagementService.category.dto.CategoryDTO;
 import edu.miu.cs544.awais.EventManagementService.category.dto.CreateCategoryDTO;
 import edu.miu.cs544.awais.EventManagementService.category.dto.UpdateCategoryDTO;
 import edu.miu.cs544.awais.EventManagementService.exception.EntityNotFoundException;
@@ -21,13 +20,12 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public ResponseEntity<CategoryDTO> createCategory(CreateCategoryDTO request) {
+    public ResponseEntity<Category> createCategory(CreateCategoryDTO request) {
         checkIfCategoryExistsByName(request.getName());
         Category category = new Category();
         category.setName(request.getName());
         category.setDescription(request.getDescription());
-        Category savedCategory = categoryRepository.save(category);
-        return new ResponseEntity<>(new CategoryDTO(savedCategory), HttpStatus.CREATED);
+        return new ResponseEntity<>(categoryRepository.save(category), HttpStatus.CREATED);
     }
 
     private void checkIfCategoryExistsByName(String categoryName) {
@@ -37,25 +35,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseEntity<CategoryDTO> getCategoryById(Long emId) {
-        Category category = findCategoryById(emId);
-        return new ResponseEntity<>(new CategoryDTO(category), HttpStatus.OK);
+    public ResponseEntity<Category> getCategoryById(Long emId) {
+        return new ResponseEntity<>(findCategoryById(emId), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
-        List<CategoryDTO> categoryDTOS = categories.stream().map(CategoryDTO::new).toList();
-        return new ResponseEntity<>(categoryDTOS, HttpStatus.OK);
+    public ResponseEntity<List<Category>> getAllCategories() {
+        return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<CategoryDTO> updateCategory(Long emId, UpdateCategoryDTO request) {
+    public ResponseEntity<Category> updateCategory(Long emId, UpdateCategoryDTO request) {
         Category category = findCategoryById(emId);
         checkIfCategoryExistsByName(request.getName());
         updateCategoryData(category, request);
-        Category updatedCategory = categoryRepository.save(category);
-        return new ResponseEntity<>(new CategoryDTO(updatedCategory), HttpStatus.OK);
+        return new ResponseEntity<>(categoryRepository.save(category), HttpStatus.OK);
     }
 
     private void updateCategoryData(Category category, UpdateCategoryDTO request) {

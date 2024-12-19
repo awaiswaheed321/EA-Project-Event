@@ -53,7 +53,7 @@ public class Event {
         this.category = category;
     }
 
-    public long getEmId() {
+    public long getId() {
         return emId;
     }
 

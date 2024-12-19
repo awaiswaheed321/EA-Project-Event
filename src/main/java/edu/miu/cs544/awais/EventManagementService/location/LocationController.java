@@ -1,7 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.location;
 
+import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import edu.miu.cs544.awais.EventManagementService.location.dto.CreateLocationDTO;
-import edu.miu.cs544.awais.EventManagementService.location.dto.LocationDTO;
 import edu.miu.cs544.awais.EventManagementService.location.dto.UpdateLocationDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +20,22 @@ public class LocationController {
     }
 
     @PostMapping
-    public ResponseEntity<LocationDTO> createLocation(@RequestBody @Valid CreateLocationDTO request) {
+    public ResponseEntity<Location> createLocation(@RequestBody @Valid CreateLocationDTO request) {
         return locationService.createLocation(request);
     }
 
     @GetMapping("/{emId}")
-    public ResponseEntity<LocationDTO> getLocation(@PathVariable Long emId) {
+    public ResponseEntity<Location> getLocation(@PathVariable Long emId) {
         return locationService.getLocationById(emId);
     }
 
     @GetMapping
-    public ResponseEntity<List<LocationDTO>> getAllLocations() {
+    public ResponseEntity<List<Location>> getAllLocations() {
         return locationService.getAllLocations();
     }
 
     @PutMapping("/{emId}")
-    public ResponseEntity<LocationDTO> updateLocation(@PathVariable Long emId, @RequestBody UpdateLocationDTO request) {
+    public ResponseEntity<Location> updateLocation(@PathVariable Long emId, @RequestBody UpdateLocationDTO request) {
         return locationService.updateLocation(emId, request);
     }
 

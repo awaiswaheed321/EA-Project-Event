@@ -16,7 +16,7 @@ public class UserPrincipal implements UserDetails {
     private final String role;
 
     public UserPrincipal(User user) {
-        this.id = user.getEmId();
+        this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.role = user.getRole().toString();

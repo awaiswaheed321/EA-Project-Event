@@ -52,7 +52,7 @@ public abstract class User {
                 '}';
     }
 
-    public Long getEmId() {
+    public Long getId() {
         return emId;
     }
 

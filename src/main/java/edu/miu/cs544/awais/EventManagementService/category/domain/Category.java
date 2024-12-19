@@ -30,7 +30,18 @@ public class Category {
         this.description = description;
     }
 
-    public long getEmId() {
+    @Override
+    public String toString() {
+        return "Category{" +
+                "emId=" + emId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
+    public long getId() {
         return emId;
     }
 

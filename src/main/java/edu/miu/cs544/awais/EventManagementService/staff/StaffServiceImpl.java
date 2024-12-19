@@ -3,14 +3,12 @@ package edu.miu.cs544.awais.EventManagementService.staff;
 import edu.miu.cs544.awais.EventManagementService.exception.EntityNotFoundException;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.CreateStaffDTO;
-import edu.miu.cs544.awais.EventManagementService.staff.dto.StaffDTO;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.UpdateStaffDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class StaffServiceImpl implements StaffService {
@@ -22,12 +20,11 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public ResponseEntity<StaffDTO> createStaff(CreateStaffDTO request) {
+    public ResponseEntity<Staff> createStaff(CreateStaffDTO request) {
         checkIfEmailExists(request.getEmail());
         Staff newStaff = new Staff(request.getUsername(), request.getEmail(), request.getPassword(),
                 request.getStaffRole());
-        Staff savedStaff = staffRepository.save(newStaff);
-        return new ResponseEntity<>(new StaffDTO(savedStaff), HttpStatus.CREATED);
+        return new ResponseEntity<>(staffRepository.save(newStaff), HttpStatus.CREATED);
     }
 
     private void checkIfEmailExists(String email) {
@@ -37,23 +34,23 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public ResponseEntity<StaffDTO> getStaffById(Long emId) {
-        Staff staff = findStaffById(emId);
-        return ResponseEntity.ok(new StaffDTO(staff));
+    public ResponseEntity<Staff> getStaffById(Long emId) {
+        return ResponseEntity.ok(findStaffById(emId));
     }
 
     @Override
-    public ResponseEntity<List<StaffDTO>> getAllStaff() {
-        List<Staff> staffList = staffRepository.findAll();
-        List<StaffDTO> staffDTOS = staffList.stream()
-                .map(StaffDTO::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(staffDTOS);
+    public ResponseEntity<List<Staff>> getAllStaff() {
+        return ResponseEntity.ok(staffRepository.findAll());
     }
 
     @Override
-    public ResponseEntity<StaffDTO> updateStaff(Long emId, UpdateStaffDTO request) {
+    public ResponseEntity<Staff> updateStaff(Long emId, UpdateStaffDTO request) {
         Staff staff = findStaffById(emId);
+        updateStaffData(staff, request);
+        return ResponseEntity.ok(staffRepository.save(staff));
+    }
+
+    private void updateStaffData(Staff staff, UpdateStaffDTO request) {
         if (request.getUsername() != null) {
             staff.setUsername(request.getUsername());
         }
@@ -63,8 +60,6 @@ public class StaffServiceImpl implements StaffService {
         if (request.getStaffRole() != null) {
             staff.setStaffRole(request.getStaffRole());
         }
-        Staff updatedStaff = staffRepository.save(staff);
-        return ResponseEntity.ok(new StaffDTO(updatedStaff));
     }
 
     public void deleteStaff(Long emId) {
@@ -76,7 +71,7 @@ public class StaffServiceImpl implements StaffService {
     public List<Staff> getStaffByIds(List<Long> emIds) {
         List<Staff> staffList = staffRepository.findAllById(emIds);
         List<Long> missingIds = emIds.stream()
-                .filter(id -> staffList.stream().noneMatch(staff -> staff.getEmId().equals(id)))
+                .filter(id -> staffList.stream().noneMatch(staff -> staff.getId().equals(id)))
                 .toList();
         if (!missingIds.isEmpty()) {
             throw new EntityNotFoundException("Staff not found for IDs: " + missingIds);

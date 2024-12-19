@@ -16,7 +16,7 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long emId;
 
-    private String locationName;
+    private String name;
     private String street;
     private String city;
     private String state;
@@ -31,24 +31,38 @@ public class Location {
     public Location() {
     }
 
-    public Location(String locationName, String street, String city, String state, String zip) {
-        this.locationName = locationName;
+    public Location(String name, String street, String city, String state, String zip) {
+        this.name = name;
         this.street = street;
         this.city = city;
         this.state = state;
         this.zip = zip;
     }
 
-    public Long getEmId() {
+    @Override
+    public String toString() {
+        return "Location{" +
+                "emId=" + emId +
+                ", name='" + name + '\'' +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
+    public Long getId() {
         return emId;
     }
 
-    public String getLocationName() {
-        return locationName;
+    public String getName() {
+        return name;
     }
 
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
+    public void setName(String locationName) {
+        this.name = locationName;
     }
 
     public String getStreet() {

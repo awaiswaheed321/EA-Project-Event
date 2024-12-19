@@ -1,7 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.staff;
 
+import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.CreateStaffDTO;
-import edu.miu.cs544.awais.EventManagementService.staff.dto.StaffDTO;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.UpdateStaffDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +20,22 @@ public class StaffController {
     }
 
     @PostMapping
-    public ResponseEntity<StaffDTO> createStaff(@RequestBody @Valid CreateStaffDTO request) {
+    public ResponseEntity<Staff> createStaff(@RequestBody @Valid CreateStaffDTO request) {
         return staffService.createStaff(request);
     }
 
     @GetMapping("/{emId}")
-    public ResponseEntity<StaffDTO> getStaff(@PathVariable Long emId) {
+    public ResponseEntity<Staff> getStaff(@PathVariable Long emId) {
         return staffService.getStaffById(emId);
     }
 
     @GetMapping
-    public ResponseEntity<List<StaffDTO>> getAllStaff() {
+    public ResponseEntity<List<Staff>> getAllStaff() {
         return staffService.getAllStaff();
     }
 
     @PutMapping("/{emId}")
-    public ResponseEntity<StaffDTO> updateStaff(@PathVariable Long emId, @RequestBody UpdateStaffDTO request) {
+    public ResponseEntity<Staff> updateStaff(@PathVariable Long emId, @RequestBody UpdateStaffDTO request) {
         return staffService.updateStaff(emId, request);
     }
 
