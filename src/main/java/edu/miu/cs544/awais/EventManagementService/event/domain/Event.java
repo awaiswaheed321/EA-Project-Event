@@ -60,7 +60,7 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "emId=" + emId +
+                "id=" + emId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", date=" + date +

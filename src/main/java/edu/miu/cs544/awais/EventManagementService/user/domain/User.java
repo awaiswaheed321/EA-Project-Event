@@ -45,7 +45,7 @@ public abstract class User {
     @Override
     public String toString() {
         return "User{" +
-                "emId=" + emId +
+                "id=" + emId +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +

@@ -33,7 +33,7 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" +
-                "emId=" + emId +
+                "id=" + emId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';

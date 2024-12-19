@@ -42,7 +42,7 @@ public class Location {
     @Override
     public String toString() {
         return "Location{" +
-                "emId=" + emId +
+                "id=" + emId +
                 ", name='" + name + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +

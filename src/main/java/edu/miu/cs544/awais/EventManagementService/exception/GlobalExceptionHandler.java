@@ -1,5 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.exception;
 
+import edu.miu.cs544.awais.EventManagementService.exception.dto.ErrorDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
