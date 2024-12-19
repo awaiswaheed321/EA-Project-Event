@@ -57,6 +57,21 @@ public class Event {
         return emId;
     }
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "emId=" + emId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", totalSeats=" + totalSeats +
+                ", availableSeats=" + availableSeats +
+                ", staff=" + staff +
+                ", location=" + location +
+                ", category=" + category +
+                '}';
+    }
+
     public String getName() {
         return name;
     }

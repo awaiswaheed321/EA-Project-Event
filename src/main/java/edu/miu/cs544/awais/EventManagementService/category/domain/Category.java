@@ -36,8 +36,6 @@ public class Category {
                 "emId=" + emId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 
