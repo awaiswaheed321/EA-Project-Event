@@ -22,4 +22,8 @@ public interface EventService {
     void deleteEvent(Long emId);
 
     List<Event> searchEvent(Specification<Event> specs);
+
+    ResponseEntity<List<Event>> findEventsWithMinimumSeats(int minSeats);
+
+    ResponseEntity<List<Event>> findUpcomingEvents();
 }

@@ -52,4 +52,16 @@ public class EventController {
         eventService.deleteEvent(emId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/with-min-seats")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<Event>> getEventsWithMinimumSeats(@RequestParam("minSeats") int minSeats) {
+        return eventService.findEventsWithMinimumSeats(minSeats);
+    }
+
+    @GetMapping("/upcoming")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<Event>> getUpcomingEvents() {
+        return eventService.findUpcomingEvents();
+    }
 }

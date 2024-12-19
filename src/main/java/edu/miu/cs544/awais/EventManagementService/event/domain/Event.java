@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedQuery(
+        name = "Event.findUpcoming",
+        query = "SELECT e FROM Event e WHERE e.date > CURRENT_TIMESTAMP"
+)
 @Entity
 public class Event {
     @Id

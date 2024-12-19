@@ -61,6 +61,16 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findAll(specs);
     }
 
+    @Override
+    public ResponseEntity<List<Event>> findEventsWithMinimumSeats(int minSeats) {
+        return ResponseEntity.ok(eventRepository.findEventsWithMinimumSeats(minSeats));
+    }
+
+    @Override
+    public ResponseEntity<List<Event>> findUpcomingEvents() {
+        return ResponseEntity.ok(eventRepository.findUpcomingEvents());
+    }
+
     private Event findEventById(Long emId) {
         return eventRepository.findById(emId).orElseThrow(() -> new EntityNotFoundException("Event not found: " + emId));
     }
