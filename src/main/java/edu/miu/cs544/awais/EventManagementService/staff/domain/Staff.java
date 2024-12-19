@@ -1,7 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.staff.domain;
 
 import edu.miu.cs544.awais.EventManagementService.user.domain.User;
-import edu.miu.cs544.awais.EventManagementService.shared.enums.UserRole;
+import edu.miu.cs544.awais.EventManagementService.shared.UserRole;
 import edu.miu.cs544.awais.EventManagementService.staff.StaffRole;
 import jakarta.persistence.*;
 

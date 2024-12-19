@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-public class SecurityConfiguration {
+public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

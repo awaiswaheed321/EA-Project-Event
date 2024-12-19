@@ -1,7 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import edu.miu.cs544.awais.EventManagementService.shared.enums.UserRole;
+import edu.miu.cs544.awais.EventManagementService.shared.UserRole;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

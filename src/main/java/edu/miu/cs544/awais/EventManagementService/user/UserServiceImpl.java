@@ -4,6 +4,7 @@ import edu.miu.cs544.awais.EventManagementService.security.JwtHelper;
 import edu.miu.cs544.awais.EventManagementService.user.domain.User;
 import edu.miu.cs544.awais.EventManagementService.user.dto.LoginRequestDto;
 import edu.miu.cs544.awais.EventManagementService.user.dto.LoginResponseDto;
+import edu.miu.cs544.awais.EventManagementService.user.dto.RefreshTokenRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +18,8 @@ public class UserServiceImpl implements UserService {
     private final JwtHelper jwtHelper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, JwtHelper jwtHelper) {
+    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager,
+                           JwtHelper jwtHelper) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtHelper = jwtHelper;
@@ -34,5 +36,17 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(loginRequest.getEmail());
         LoginResponseDto res = new LoginResponseDto(accessToken, refreshToken, user);
         return ResponseEntity.ok(res);
+    }
+
+    @Override
+    public ResponseEntity<LoginResponseDto> refreshToken(RefreshTokenRequestDto refreshTokenRequest) {
+        boolean isRefreshTokenValid = jwtHelper.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        if (!isRefreshTokenValid) {
+            throw new IllegalArgumentException("Refresh Token invalid");
+        }
+        String email = jwtHelper.getSubject(refreshTokenRequest.getRefreshToken());
+        final String accessToken = jwtHelper.generateToken(email);
+        User user = userRepository.findByEmail(email);
+        return ResponseEntity.ok(new LoginResponseDto(accessToken, refreshTokenRequest.getRefreshToken(), user));
     }
 }
