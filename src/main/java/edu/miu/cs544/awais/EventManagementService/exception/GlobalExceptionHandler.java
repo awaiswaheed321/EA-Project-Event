@@ -1,5 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.exception;
 
+import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.exception.custom.InsufficientAdminsException;
 import edu.miu.cs544.awais.EventManagementService.exception.dto.ErrorDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,16 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorDTO> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+        LOGGER.error(GlobalExceptionHandler.class.getName(), ex.getMessage(), ex);
+        ErrorDTO errorResponse = new ErrorDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -51,7 +63,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthorizationDeniedException.class)
-    public ResponseEntity<ErrorDTO> handleAuthorizationDeniedException(AuthorizationDeniedException ex, WebRequest request) {
+    public ResponseEntity<ErrorDTO> handleAuthorizationDeniedException(AuthorizationDeniedException ex,
+                                                                       WebRequest request) {
         LOGGER.error(GlobalExceptionHandler.class.getName(), ex.getMessage(), ex);
         ErrorDTO errorResponse = new ErrorDTO(
                 HttpStatus.FORBIDDEN.value(),
@@ -60,6 +73,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(InsufficientAdminsException.class)
+    public ResponseEntity<ErrorDTO> handleInsufficientAdminsException(InsufficientAdminsException ex,
+                                                                      WebRequest request) {
+        LOGGER.error(GlobalExceptionHandler.class.getName(), ex.getMessage(), ex);
+        ErrorDTO errorResponse = new ErrorDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
     // Handle generic exceptions
     @ExceptionHandler(Exception.class)

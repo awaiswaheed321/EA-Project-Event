@@ -1,11 +1,12 @@
 package edu.miu.cs544.awais.EventManagementService.staff;
 
-import edu.miu.cs544.awais.EventManagementService.exception.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.CreateStaffDTO;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.UpdateStaffDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,15 +15,18 @@ import java.util.List;
 public class StaffServiceImpl implements StaffService {
 
     private final StaffRepository staffRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public StaffServiceImpl(StaffRepository staffRepository) {
+    public StaffServiceImpl(StaffRepository staffRepository, PasswordEncoder passwordEncoder) {
         this.staffRepository = staffRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public ResponseEntity<Staff> createStaff(CreateStaffDTO request) {
         checkIfEmailExists(request.getEmail());
-        Staff newStaff = new Staff(request.getUsername(), request.getEmail(), request.getPassword(),
+        Staff newStaff = new Staff(request.getUsername(), request.getEmail(),
+                passwordEncoder.encode(request.getPassword()),
                 request.getStaffRole());
         return new ResponseEntity<>(staffRepository.save(newStaff), HttpStatus.CREATED);
     }
@@ -55,7 +59,7 @@ public class StaffServiceImpl implements StaffService {
             staff.setUsername(request.getUsername());
         }
         if (request.getPassword() != null) {
-            staff.setPassword(request.getPassword());
+            staff.setPassword(passwordEncoder.encode(request.getPassword()));
         }
         if (request.getStaffRole() != null) {
             staff.setStaffRole(request.getStaffRole());

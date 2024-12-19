@@ -3,7 +3,7 @@ package edu.miu.cs544.awais.EventManagementService.event;
 import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.event.dto.CreateEventDTO;
 import edu.miu.cs544.awais.EventManagementService.event.dto.UpdateEventDTO;
-import edu.miu.cs544.awais.EventManagementService.exception.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

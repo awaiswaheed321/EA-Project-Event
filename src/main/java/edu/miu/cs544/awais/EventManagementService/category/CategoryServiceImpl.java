@@ -3,7 +3,7 @@ package edu.miu.cs544.awais.EventManagementService.category;
 import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
 import edu.miu.cs544.awais.EventManagementService.category.dto.CreateCategoryDTO;
 import edu.miu.cs544.awais.EventManagementService.category.dto.UpdateCategoryDTO;
-import edu.miu.cs544.awais.EventManagementService.exception.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

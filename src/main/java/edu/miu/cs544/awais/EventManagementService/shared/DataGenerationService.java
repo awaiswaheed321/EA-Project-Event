@@ -1,5 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.shared;
 
+import edu.miu.cs544.awais.EventManagementService.admin.domain.Admin;
+import edu.miu.cs544.awais.EventManagementService.admin.AdminRepository;
 import edu.miu.cs544.awais.EventManagementService.category.CategoryRepository;
 import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
 import edu.miu.cs544.awais.EventManagementService.event.EventRepository;
@@ -23,6 +25,7 @@ import java.util.Random;
 @Service
 @Profile("data")
 public class DataGenerationService implements CommandLineRunner {
+    private final AdminRepository adminRepository;
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
     private final StaffRepository staffRepository;
@@ -30,10 +33,11 @@ public class DataGenerationService implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DataGenerationService(CategoryRepository categoryRepository,
+    public DataGenerationService(AdminRepository adminRepository, CategoryRepository categoryRepository,
                                  LocationRepository locationRepository,
                                  StaffRepository staffRepository,
                                  EventRepository eventRepository, PasswordEncoder passwordEncoder) {
+        this.adminRepository = adminRepository;
         this.categoryRepository = categoryRepository;
         this.locationRepository = locationRepository;
         this.staffRepository = staffRepository;
@@ -43,10 +47,18 @@ public class DataGenerationService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        generateAdmins();
         generateCategories();
         generateLocations();
         generateStaff();
         generateEvents();
+    }
+
+    private void generateAdmins() {
+        List<Admin> admins = List.of(new Admin("admin1", "admin1@example.com", passwordEncoder.encode("password_1234")),
+                new Admin("admin2", "admin2@example.com", passwordEncoder.encode("password_1234")),
+                new Admin("admin3", "admin3@example.com", passwordEncoder.encode("password_1234")));
+        adminRepository.saveAll(admins);
     }
 
     private void generateCategories() {

@@ -3,7 +3,7 @@ package edu.miu.cs544.awais.EventManagementService.location;
 import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import edu.miu.cs544.awais.EventManagementService.location.dto.CreateLocationDTO;
 import edu.miu.cs544.awais.EventManagementService.location.dto.UpdateLocationDTO;
-import edu.miu.cs544.awais.EventManagementService.exception.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
