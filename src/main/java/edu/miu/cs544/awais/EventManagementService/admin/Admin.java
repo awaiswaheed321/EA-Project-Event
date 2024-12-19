@@ -1,6 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.admin;
 
-import edu.miu.cs544.awais.EventManagementService.shared.domain.User;
+import edu.miu.cs544.awais.EventManagementService.user.domain.User;
 import edu.miu.cs544.awais.EventManagementService.shared.enums.UserRole;
 import jakarta.persistence.Entity;
 

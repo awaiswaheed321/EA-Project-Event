@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -16,9 +17,10 @@ import java.util.Arrays;
 public class ApiLoggerAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiLoggerAspect.class);
 
-    @Pointcut("execution( * edu.miu.cs544.awais.EventManagementService..*Controller*(..))")
+    @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
     public void apiLoggingPointCut() {
     }
+
 
     @Around("apiLoggingPointCut()")
     public Object apiLoggingAround(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -32,7 +34,7 @@ public class ApiLoggerAspect {
         return response;
     }
 
-    @Pointcut("within(edu.miu.cs544.awais.EventManagementService.shared.exceptionhandler.GlobalExceptionHandler)")
+    @Pointcut("within(edu.miu.cs544.awais.EventManagementService.exception.GlobalExceptionHandler)")
     public void exceptionHandlerMethods() {
     }
 

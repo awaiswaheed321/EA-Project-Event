@@ -1,5 +1,6 @@
-package edu.miu.cs544.awais.EventManagementService.shared.domain;
+package edu.miu.cs544.awais.EventManagementService.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.miu.cs544.awais.EventManagementService.shared.enums.UserRole;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -7,7 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@MappedSuperclass
+@Entity
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +20,7 @@ public abstract class User {
 
     @Column(unique = true)
     private String email;
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -36,6 +40,16 @@ public abstract class User {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "emId=" + emId +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
     }
 
     public Long getEmId() {

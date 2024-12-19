@@ -12,6 +12,7 @@ import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,16 +27,18 @@ public class DataGenerationService implements CommandLineRunner {
     private final LocationRepository locationRepository;
     private final StaffRepository staffRepository;
     private final EventRepository eventRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public DataGenerationService(CategoryRepository categoryRepository,
                                  LocationRepository locationRepository,
                                  StaffRepository staffRepository,
-                                 EventRepository eventRepository) {
+                                 EventRepository eventRepository, PasswordEncoder passwordEncoder) {
         this.categoryRepository = categoryRepository;
         this.locationRepository = locationRepository;
         this.staffRepository = staffRepository;
         this.eventRepository = eventRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -70,30 +73,50 @@ public class DataGenerationService implements CommandLineRunner {
 
     private void generateStaff() {
         List<Staff> staffList = Arrays.asList(
-                new Staff("username_1", "email_1@example.com", "password_1234", StaffRole.EVENT_PLANNER),
-                new Staff("username_2", "email_2@example.com", "password_1234", StaffRole.LOGISTICS_MANAGER),
-                new Staff("username_3", "email_3@example.com", "password_1234", StaffRole.CATERING_MANAGER),
-                new Staff("username_4", "email_4@example.com", "password_1234", StaffRole.MARKETING_SPECIALIST),
-                new Staff("username_5", "email_5@example.com", "password_1234", StaffRole.TECH_SUPPORT),
-                new Staff("username_6", "email_6@example.com", "password_1234", StaffRole.REGISTRATION_COORDINATOR),
-                new Staff("username_7", "email_7@example.com", "password_1234", StaffRole.EVENT_PLANNER),
-                new Staff("username_8", "email_8@example.com", "password_1234", StaffRole.LOGISTICS_MANAGER),
-                new Staff("username_9", "email_9@example.com", "password_1234", StaffRole.CATERING_MANAGER),
-                new Staff("username_10", "email_10@example.com", "password_1234", StaffRole.MARKETING_SPECIALIST),
-                new Staff("username_11", "email_11@example.com", "password_1234", StaffRole.TECH_SUPPORT),
-                new Staff("username_12", "email_12@example.com", "password_1234", StaffRole.REGISTRATION_COORDINATOR),
-                new Staff("username_13", "email_13@example.com", "password_1234", StaffRole.EVENT_PLANNER),
-                new Staff("username_14", "email_14@example.com", "password_1234", StaffRole.LOGISTICS_MANAGER),
-                new Staff("username_15", "email_15@example.com", "password_1234", StaffRole.CATERING_MANAGER),
-                new Staff("username_16", "email_16@example.com", "password_1234", StaffRole.MARKETING_SPECIALIST),
-                new Staff("username_17", "email_17@example.com", "password_1234", StaffRole.TECH_SUPPORT),
-                new Staff("username_18", "email_18@example.com", "password_1234", StaffRole.REGISTRATION_COORDINATOR),
-                new Staff("username_19", "email_19@example.com", "password_1234", StaffRole.EVENT_PLANNER),
-                new Staff("username_20", "email_20@example.com", "password_1234", StaffRole.LOGISTICS_MANAGER)
+                new Staff("username_1", "email_1@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.EVENT_PLANNER),
+                new Staff("username_2", "email_2@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.LOGISTICS_MANAGER),
+                new Staff("username_3", "email_3@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.CATERING_MANAGER),
+                new Staff("username_4", "email_4@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.MARKETING_SPECIALIST),
+                new Staff("username_5", "email_5@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.TECH_SUPPORT),
+                new Staff("username_6", "email_6@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.REGISTRATION_COORDINATOR),
+                new Staff("username_7", "email_7@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.EVENT_PLANNER),
+                new Staff("username_8", "email_8@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.LOGISTICS_MANAGER),
+                new Staff("username_9", "email_9@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.CATERING_MANAGER),
+                new Staff("username_10", "email_10@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.MARKETING_SPECIALIST),
+                new Staff("username_11", "email_11@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.TECH_SUPPORT),
+                new Staff("username_12", "email_12@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.REGISTRATION_COORDINATOR),
+                new Staff("username_13", "email_13@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.EVENT_PLANNER),
+                new Staff("username_14", "email_14@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.LOGISTICS_MANAGER),
+                new Staff("username_15", "email_15@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.CATERING_MANAGER),
+                new Staff("username_16", "email_16@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.MARKETING_SPECIALIST),
+                new Staff("username_17", "email_17@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.TECH_SUPPORT),
+                new Staff("username_18", "email_18@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.REGISTRATION_COORDINATOR),
+                new Staff("username_19", "email_19@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.EVENT_PLANNER),
+                new Staff("username_20", "email_20@example.com", passwordEncoder.encode("password_1234"),
+                        StaffRole.LOGISTICS_MANAGER)
         );
+
         staffRepository.saveAll(staffList);
     }
-
 
     private void generateEvents() {
         Random random = new Random();

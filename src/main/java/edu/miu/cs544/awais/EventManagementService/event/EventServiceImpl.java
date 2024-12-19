@@ -8,7 +8,7 @@ import edu.miu.cs544.awais.EventManagementService.event.dto.EventDTO;
 import edu.miu.cs544.awais.EventManagementService.event.dto.UpdateEventDTO;
 import edu.miu.cs544.awais.EventManagementService.location.LocationService;
 import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
-import edu.miu.cs544.awais.EventManagementService.shared.exceptionhandler.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.exception.EntityNotFoundException;
 import edu.miu.cs544.awais.EventManagementService.shared.mapper.EntityToDtoMapper;
 import edu.miu.cs544.awais.EventManagementService.staff.StaffService;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;

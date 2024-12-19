@@ -1,0 +1,38 @@
+package edu.miu.cs544.awais.EventManagementService.user;
+
+import edu.miu.cs544.awais.EventManagementService.security.JwtHelper;
+import edu.miu.cs544.awais.EventManagementService.user.domain.User;
+import edu.miu.cs544.awais.EventManagementService.user.dto.LoginRequestDto;
+import edu.miu.cs544.awais.EventManagementService.user.dto.LoginResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtHelper jwtHelper;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, JwtHelper jwtHelper) {
+        this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtHelper = jwtHelper;
+    }
+
+    @Override
+    public ResponseEntity<LoginResponseDto> login(LoginRequestDto loginRequest) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
+                        loginRequest.getPassword())
+        );
+        final String accessToken = jwtHelper.generateToken(loginRequest.getEmail());
+        final String refreshToken = jwtHelper.generateRefreshToken(loginRequest.getEmail());
+        User user = userRepository.findByEmail(loginRequest.getEmail());
+        LoginResponseDto res = new LoginResponseDto(accessToken, refreshToken, user);
+        return ResponseEntity.ok(res);
+    }
+}
