@@ -3,6 +3,7 @@ package edu.miu.cs544.awais.EventManagementService.category;
 import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
 import edu.miu.cs544.awais.EventManagementService.category.dto.CreateCategoryDTO;
 import edu.miu.cs544.awais.EventManagementService.category.dto.UpdateCategoryDTO;
+import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -18,5 +19,5 @@ public interface CategoryService {
 
     void deleteCategory(Long emId);
 
-    Category findCategoryById(Long emId);
+    ResponseEntity<List<Event>> getEventsByCategoryId(Long emId);
 }

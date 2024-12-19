@@ -1,9 +1,12 @@
 package edu.miu.cs544.awais.EventManagementService.location;
 
+import edu.miu.cs544.awais.EventManagementService.event.EventService;
+import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
+import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
 import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import edu.miu.cs544.awais.EventManagementService.location.dto.CreateLocationDTO;
 import edu.miu.cs544.awais.EventManagementService.location.dto.UpdateLocationDTO;
-import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.shared.EventSpecification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +16,11 @@ import java.util.List;
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
+    private final EventService eventService;
 
-    public LocationServiceImpl(LocationRepository locationRepository) {
+    public LocationServiceImpl(LocationRepository locationRepository, EventService eventService) {
         this.locationRepository = locationRepository;
+        this.eventService = eventService;
     }
 
     @Override
@@ -66,8 +71,16 @@ public class LocationServiceImpl implements LocationService {
         locationRepository.delete(location);
     }
 
-    public Location findLocationById(Long emId) {
+    @Override
+    public ResponseEntity<List<Event>> getEventsByLocationId(Long emId) {
+        Location location = findLocationById(emId);
+        List<Event> events = eventService.searchEvent(EventSpecification.locationPredicate(location.getId()));
+        return ResponseEntity.ok(events);
+    }
+
+    private Location findLocationById(Long emId) {
         return locationRepository.findById(emId)
                 .orElseThrow(() -> new EntityNotFoundException("Location not found for id " + emId));
     }
+
 }

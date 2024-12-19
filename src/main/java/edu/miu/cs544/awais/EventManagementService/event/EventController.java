@@ -2,6 +2,7 @@ package edu.miu.cs544.awais.EventManagementService.event;
 
 import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.event.dto.CreateEventDTO;
+import edu.miu.cs544.awais.EventManagementService.event.dto.EventFilterDTO;
 import edu.miu.cs544.awais.EventManagementService.event.dto.UpdateEventDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,8 @@ public class EventController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<Event>> getAllEvents() {
-        return eventService.getAllEvents();
+    public ResponseEntity<List<Event>> getAllEvents(EventFilterDTO filterDTO) {
+        return eventService.getAllEvents(filterDTO);
     }
 
     @PutMapping("/{emId}")

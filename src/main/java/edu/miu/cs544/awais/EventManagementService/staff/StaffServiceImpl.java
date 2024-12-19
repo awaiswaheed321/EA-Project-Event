@@ -1,6 +1,9 @@
 package edu.miu.cs544.awais.EventManagementService.staff;
 
+import edu.miu.cs544.awais.EventManagementService.event.EventService;
+import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.shared.EventSpecification;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.CreateStaffDTO;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.UpdateStaffDTO;
@@ -16,10 +19,13 @@ public class StaffServiceImpl implements StaffService {
 
     private final StaffRepository staffRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EventService eventService;
 
-    public StaffServiceImpl(StaffRepository staffRepository, PasswordEncoder passwordEncoder) {
+    public StaffServiceImpl(StaffRepository staffRepository, PasswordEncoder passwordEncoder,
+                            EventService eventService) {
         this.staffRepository = staffRepository;
         this.passwordEncoder = passwordEncoder;
+        this.eventService = eventService;
     }
 
     @Override
@@ -72,15 +78,10 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<Staff> getStaffByIds(List<Long> emIds) {
-        List<Staff> staffList = staffRepository.findAllById(emIds);
-        List<Long> missingIds = emIds.stream()
-                .filter(id -> staffList.stream().noneMatch(staff -> staff.getId().equals(id)))
-                .toList();
-        if (!missingIds.isEmpty()) {
-            throw new EntityNotFoundException("Staff not found for IDs: " + missingIds);
-        }
-        return staffList;
+    public ResponseEntity<List<Event>> getEventsByStaffId(Long emId) {
+        Staff staff = findStaffById(emId);
+        List<Event> events = eventService.searchEvent(EventSpecification.staffInPredicate(List.of(staff.getId())));
+        return ResponseEntity.ok(events);
     }
 
     private Staff findStaffById(Long emId) {

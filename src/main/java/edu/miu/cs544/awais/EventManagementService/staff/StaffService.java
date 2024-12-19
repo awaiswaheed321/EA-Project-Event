@@ -1,5 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.staff;
 
+import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.CreateStaffDTO;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.UpdateStaffDTO;
@@ -18,5 +19,5 @@ public interface StaffService {
 
     void deleteStaff(Long emId);
 
-    List<Staff> getStaffByIds(List<Long> emIds);
+    ResponseEntity<List<Event>> getEventsByStaffId(Long emId);
 }

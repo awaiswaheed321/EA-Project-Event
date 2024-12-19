@@ -2,10 +2,12 @@ package edu.miu.cs544.awais.EventManagementService.event;
 
 import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.event.dto.CreateEventDTO;
+import edu.miu.cs544.awais.EventManagementService.event.dto.EventFilterDTO;
 import edu.miu.cs544.awais.EventManagementService.event.dto.UpdateEventDTO;
 import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,8 +37,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public ResponseEntity<List<Event>> getAllEvents() {
-        return new ResponseEntity<>(eventRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Event>> getAllEvents(EventFilterDTO filterDTO) {
+        Specification<Event> specifications = eventFactory.generateEventSpecification(filterDTO);
+        return new ResponseEntity<>(searchEvent(specifications), HttpStatus.OK);
     }
 
     @Override
@@ -51,6 +54,11 @@ public class EventServiceImpl implements EventService {
     public void deleteEvent(Long emId) {
         Event event = findEventById(emId);
         eventRepository.delete(event);
+    }
+
+    @Override
+    public List<Event> searchEvent(Specification<Event> specs) {
+        return eventRepository.findAll(specs);
     }
 
     private Event findEventById(Long emId) {

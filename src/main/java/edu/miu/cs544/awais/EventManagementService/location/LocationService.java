@@ -1,5 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.location;
 
+import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import edu.miu.cs544.awais.EventManagementService.location.dto.CreateLocationDTO;
 import edu.miu.cs544.awais.EventManagementService.location.dto.UpdateLocationDTO;
@@ -18,5 +19,5 @@ public interface LocationService {
 
     void deleteLocation(Long emId);
 
-    Location findLocationById(Long emId);
+    ResponseEntity<List<Event>> getEventsByLocationId(Long emId);
 }

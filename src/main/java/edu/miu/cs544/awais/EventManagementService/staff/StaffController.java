@@ -1,5 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.staff;
 
+import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.CreateStaffDTO;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.UpdateStaffDTO;
@@ -36,6 +37,12 @@ public class StaffController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_STAFF')")
     public ResponseEntity<List<Staff>> getAllStaff() {
         return staffService.getAllStaff();
+    }
+
+    @GetMapping("/{emId}/events")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_STAFF')")
+    public ResponseEntity<List<Event>> getEventsByStaffId(@PathVariable Long emId) {
+        return staffService.getEventsByStaffId(emId);
     }
 
     @PutMapping("/{emId}")

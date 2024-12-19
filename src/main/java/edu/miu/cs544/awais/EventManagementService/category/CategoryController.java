@@ -3,6 +3,7 @@ package edu.miu.cs544.awais.EventManagementService.category;
 import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
 import edu.miu.cs544.awais.EventManagementService.category.dto.CreateCategoryDTO;
 import edu.miu.cs544.awais.EventManagementService.category.dto.UpdateCategoryDTO;
+import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,12 @@ public class CategoryController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long emId) {
         return categoryService.getCategoryById(emId);
+    }
+
+    @GetMapping("/{emId}/events")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<Event>> getEventsByCategoryId(@PathVariable Long emId) {
+        return categoryService.getEventsByCategoryId(emId);
     }
 
     @GetMapping
