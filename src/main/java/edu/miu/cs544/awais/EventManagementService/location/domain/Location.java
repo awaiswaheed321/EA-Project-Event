@@ -1,9 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.location.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -21,6 +19,10 @@ public class Location {
     private String city;
     private String state;
     private String zip;
+
+    @Version
+    @JsonIgnore
+    private int version;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -93,5 +95,13 @@ public class Location {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

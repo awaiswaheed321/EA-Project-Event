@@ -7,7 +7,6 @@ public class UpdateEventDTO {
     private String name;
     private String description;
     private LocalDateTime date;
-    private Integer totalSeats;
     private Long locationId;
     private Long categoryId;
     private List<Long> staffIds;
@@ -37,14 +36,6 @@ public class UpdateEventDTO {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
-    }
-
-    public Integer getTotalSeats() {
-        return totalSeats;
-    }
-
-    public void setTotalSeats(Integer totalSeats) {
-        this.totalSeats = totalSeats;
     }
 
     public Long getLocationId() {

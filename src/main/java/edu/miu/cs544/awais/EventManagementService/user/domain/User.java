@@ -26,6 +26,10 @@ public abstract class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Version
+    @JsonIgnore
+    private int version;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -86,5 +90,13 @@ public abstract class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

@@ -65,7 +65,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     private Event findEventById(Long id) {
-        return eventRepository.findById(id)
+        return eventRepository.findByIdWithLock(id)
                 .orElseThrow(() -> new EntityNotFoundException("Event not found: " + id));
     }
 }

@@ -1,5 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.event.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
 import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
@@ -22,6 +23,7 @@ public class Event {
     private long emId;
 
     @Version
+    @JsonIgnore
     private int version;
 
     private String name;
@@ -156,5 +158,9 @@ public class Event {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public int getVersion() {
+        return version;
     }
 }

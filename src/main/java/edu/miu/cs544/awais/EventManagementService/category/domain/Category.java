@@ -1,5 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.category.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,6 +16,10 @@ public class Category {
     @Column(unique = true)
     private String name;
     private String description;
+
+    @Version
+    @JsonIgnore
+    private int version;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -57,5 +62,13 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

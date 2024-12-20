@@ -49,9 +49,6 @@ public class EventFactory {
         if (request.getDate() != null) {
             event.setDate(request.getDate());
         }
-        if (request.getTotalSeats() != null) {
-            event.setTotalSeats(request.getTotalSeats());
-        }
         if (request.getLocationId() != null) {
             Location location = getLocationById(request.getLocationId());
             event.setLocation(location);
