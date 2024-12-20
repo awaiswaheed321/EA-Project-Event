@@ -2,6 +2,7 @@ package edu.miu.cs544.awais.EventManagementService.exception;
 
 import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
 import edu.miu.cs544.awais.EventManagementService.exception.custom.InsufficientAdminsException;
+import edu.miu.cs544.awais.EventManagementService.exception.custom.UnauthorizedAccessException;
 import edu.miu.cs544.awais.EventManagementService.exception.dto.ErrorDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,16 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<ErrorDTO> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
+        ErrorDTO errorResponse = new ErrorDTO(
+                HttpStatus.FORBIDDEN.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorDTO> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {

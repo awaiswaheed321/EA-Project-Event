@@ -17,7 +17,7 @@ public interface CategoryService {
 
     ResponseEntity<Category> updateCategory(Long emId, UpdateCategoryDTO request);
 
-    void deleteCategory(Long emId);
+    ResponseEntity<Void> deleteCategory(Long emId);
 
     ResponseEntity<List<Event>> getEventsByCategoryId(Long emId);
 }

@@ -17,7 +17,7 @@ public interface LocationService {
 
     ResponseEntity<Location> updateLocation(Long emId, UpdateLocationDTO request);
 
-    void deleteLocation(Long emId);
+    ResponseEntity<Void> deleteLocation(Long emId);
 
     ResponseEntity<List<Event>> getEventsByLocationId(Long emId);
 }

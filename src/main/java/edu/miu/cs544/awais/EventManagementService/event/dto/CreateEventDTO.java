@@ -22,6 +22,10 @@ public class CreateEventDTO {
     @Min(value = 6, message = "Total seats must be greater than 5")
     private Integer totalSeats;
 
+    @NotNull(message = "Price can not be null")
+    @Min(value = 1, message = "Price must be greater than 0.")
+    private Double ticketPrice;
+
     @NotNull(message = "Location ID cannot be null")
     @Min(value = 1, message = "Location ID must be greater than 0")
     private Long locationId;
@@ -91,5 +95,13 @@ public class CreateEventDTO {
 
     public void setStaffIds(List<Long> staffIds) {
         this.staffIds = staffIds;
+    }
+
+    public Double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(Double ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 }

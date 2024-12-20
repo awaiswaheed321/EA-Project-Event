@@ -17,7 +17,7 @@ public interface StaffService {
 
     ResponseEntity<Staff> updateStaff(Long emId, UpdateStaffDTO request);
 
-    void deleteStaff(Long emId);
+    ResponseEntity<Void> deleteStaff(Long emId);
 
     ResponseEntity<List<Event>> getEventsByStaffId(Long emId);
 }

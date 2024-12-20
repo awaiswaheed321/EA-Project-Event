@@ -54,7 +54,6 @@ public class StaffController {
     @DeleteMapping("/{emId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteStaff(@PathVariable Long emId) {
-        staffService.deleteStaff(emId);
-        return ResponseEntity.noContent().build();
+        return staffService.deleteStaff(emId);
     }
 }

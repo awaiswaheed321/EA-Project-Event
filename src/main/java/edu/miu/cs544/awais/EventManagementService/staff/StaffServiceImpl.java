@@ -72,9 +72,10 @@ public class StaffServiceImpl implements StaffService {
         }
     }
 
-    public void deleteStaff(Long emId) {
+    public ResponseEntity<Void> deleteStaff(Long emId) {
         Staff staff = findStaffById(emId);
         staffRepository.delete(staff);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

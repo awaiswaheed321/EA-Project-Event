@@ -67,4 +67,24 @@ public class EventSpecification {
             return criteriaBuilder.equal(root.get("category").get("emId"), categoryId);
         };
     }
+
+    public static Specification<Event> priceLessThan(Double price) {
+        return (root, query, criteriaBuilder) -> {
+            if (price == null) {
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.lessThanOrEqualTo(root.get("ticketPrice"), price);
+        };
+    }
+
+    public static Specification<Event> priceGreaterThan(Double price) {
+        return (root, query, criteriaBuilder) -> {
+            if (price == null) {
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.greaterThanOrEqualTo(root.get("ticketPrice"), price);
+        };
+    }
+
+
 }

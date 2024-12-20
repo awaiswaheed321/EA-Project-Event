@@ -53,7 +53,6 @@ public class CategoryController {
     @DeleteMapping("/{emId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long emId) {
-        categoryService.deleteCategory(emId);
-        return ResponseEntity.noContent().build();
+        return categoryService.deleteCategory(emId);
     }
 }

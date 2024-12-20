@@ -19,7 +19,7 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void log(JoinPoint joinPoint) {
         Operation operation = new Operation();
-        operation.setPrinciple(SecurityUtils.getUsername());
+        operation.setPrinciple(SecurityUtils.getPrincipalUsername());
         operation.setOperation(joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         operationLoggerRepository.save(operation);
     }

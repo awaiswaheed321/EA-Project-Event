@@ -49,8 +49,7 @@ public class EventController {
     @DeleteMapping("/{emId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long emId) {
-        eventService.deleteEvent(emId);
-        return ResponseEntity.noContent().build();
+        return eventService.deleteEvent(emId);
     }
 
     @GetMapping("/with-min-seats")

@@ -21,11 +21,15 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long emId;
 
+    @Version
+    private int version;
+
     private String name;
     private String description;
     private LocalDateTime date;
     private Integer totalSeats;
     private Integer availableSeats;
+    private Double ticketPrice;
 
     @ManyToMany
     private List<Staff> staff = new ArrayList<>();
@@ -46,12 +50,13 @@ public class Event {
     }
 
     public Event(String name, String description, LocalDateTime date, Integer totalSeats, Integer availableSeats,
-                 List<Staff> staff, Location location, Category category) {
+                 Double ticketPrice, List<Staff> staff, Location location, Category category) {
         this.name = name;
         this.description = description;
         this.date = date;
         this.totalSeats = totalSeats;
         this.availableSeats = availableSeats;
+        this.ticketPrice = ticketPrice;
         this.staff = staff;
         this.location = location;
         this.category = category;
@@ -70,6 +75,7 @@ public class Event {
                 ", date=" + date +
                 ", totalSeats=" + totalSeats +
                 ", availableSeats=" + availableSeats +
+                ", ticketPrice=" + ticketPrice +
                 ", staff=" + staff +
                 ", location=" + location +
                 ", category=" + category +
@@ -116,6 +122,14 @@ public class Event {
         this.availableSeats = availableSeats;
     }
 
+    public Double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(Double ticketPrice) {
+        this.ticketPrice = ticketPrice;
+    }
+
     public List<Staff> getStaff() {
         return staff;
     }
@@ -138,5 +152,13 @@ public class Event {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

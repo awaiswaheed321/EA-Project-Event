@@ -7,6 +7,8 @@ public class EventFilterDTO {
     private LocalDateTime beforeDate;
     private LocalDateTime afterDate;
     private String name;
+    private Double priceLessThan;
+    private Double priceGreaterThan;
     private List<Long> staffIds;
     private Long locationId;
     private Long categoryId;
@@ -60,6 +62,22 @@ public class EventFilterDTO {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Double getPriceLessThan() {
+        return priceLessThan;
+    }
+
+    public void setPriceLessThan(Double priceLessThan) {
+        this.priceLessThan = priceLessThan;
+    }
+
+    public Double getPriceGreaterThan() {
+        return priceGreaterThan;
+    }
+
+    public void setPriceGreaterThan(Double priceGreaterThan) {
+        this.priceGreaterThan = priceGreaterThan;
     }
 }
 

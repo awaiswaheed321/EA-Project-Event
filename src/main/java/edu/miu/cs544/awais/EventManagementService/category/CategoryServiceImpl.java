@@ -67,9 +67,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long emId) {
+    public ResponseEntity<Void> deleteCategory(Long emId) {
         Category category = findCategoryById(emId);
         categoryRepository.delete(category);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

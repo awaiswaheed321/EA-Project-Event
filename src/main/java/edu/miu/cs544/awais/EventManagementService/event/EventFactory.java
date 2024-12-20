@@ -36,7 +36,7 @@ public class EventFactory {
         Location location = getLocationById(request.getLocationId());
         List<Staff> staff = getStaffByIds(request.getStaffIds());
         return new Event(request.getName(), request.getDescription(), request.getDate(), request.getTotalSeats(),
-                request.getTotalSeats(), staff, location, category);
+                request.getTotalSeats(), request.getTicketPrice(), staff, location, category);
     }
 
     public void updateEventData(Event event, UpdateEventDTO request) {
@@ -86,10 +86,15 @@ public class EventFactory {
             Category category = getCategoryById(request.getCategoryId());
             specification = specification.and(EventSpecification.categoryPredicate(category.getId()));
         }
-
         if (request.getStaffIds() != null && !request.getStaffIds().isEmpty()) {
             List<Staff> staffMembers = getStaffByIds(request.getStaffIds());
             specification = specification.and(EventSpecification.staffInPredicate(request.getStaffIds()));
+        }
+        if (request.getPriceGreaterThan() != null) {
+            specification = specification.and(EventSpecification.priceGreaterThan(request.getPriceGreaterThan()));
+        }
+        if (request.getPriceLessThan() != null) {
+            specification = specification.and(EventSpecification.priceLessThan(request.getPriceLessThan()));
         }
         return specification;
     }

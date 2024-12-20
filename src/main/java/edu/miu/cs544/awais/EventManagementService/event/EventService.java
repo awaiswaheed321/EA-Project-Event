@@ -19,7 +19,7 @@ public interface EventService {
 
     ResponseEntity<Event> updateEvent(Long emId, UpdateEventDTO request);
 
-    void deleteEvent(Long emId);
+    ResponseEntity<Void> deleteEvent(Long emId);
 
     List<Event> searchEvent(Specification<Event> specs);
 

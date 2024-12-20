@@ -51,9 +51,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void deleteEvent(Long emId) {
+    public ResponseEntity<Void> deleteEvent(Long emId) {
         Event event = findEventById(emId);
         eventRepository.delete(event);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

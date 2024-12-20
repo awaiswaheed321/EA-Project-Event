@@ -1,9 +1,11 @@
 package edu.miu.cs544.awais.EventManagementService.shared;
 
-import edu.miu.cs544.awais.EventManagementService.admin.domain.Admin;
 import edu.miu.cs544.awais.EventManagementService.admin.AdminRepository;
+import edu.miu.cs544.awais.EventManagementService.admin.domain.Admin;
 import edu.miu.cs544.awais.EventManagementService.category.CategoryRepository;
 import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
+import edu.miu.cs544.awais.EventManagementService.customer.CustomerRepository;
+import edu.miu.cs544.awais.EventManagementService.customer.domain.Customer;
 import edu.miu.cs544.awais.EventManagementService.event.EventRepository;
 import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.location.LocationRepository;
@@ -11,13 +13,22 @@ import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import edu.miu.cs544.awais.EventManagementService.staff.StaffRepository;
 import edu.miu.cs544.awais.EventManagementService.staff.StaffRole;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
+import edu.miu.cs544.awais.EventManagementService.ticket.PaymentMethod;
+import edu.miu.cs544.awais.EventManagementService.ticket.TicketRepository;
+import edu.miu.cs544.awais.EventManagementService.ticket.domain.Ticket;
+import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -25,33 +36,46 @@ import java.util.Random;
 @Service
 @Profile("data")
 public class DataGenerationService implements CommandLineRunner {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataGenerationService.class);
+
     private final AdminRepository adminRepository;
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
     private final StaffRepository staffRepository;
     private final EventRepository eventRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CustomerRepository customerRepository;
 
     @Autowired
     public DataGenerationService(AdminRepository adminRepository, CategoryRepository categoryRepository,
                                  LocationRepository locationRepository,
                                  StaffRepository staffRepository,
-                                 EventRepository eventRepository, PasswordEncoder passwordEncoder) {
+                                 EventRepository eventRepository, PasswordEncoder passwordEncoder, CustomerRepository customerRepository) {
         this.adminRepository = adminRepository;
         this.categoryRepository = categoryRepository;
         this.locationRepository = locationRepository;
         this.staffRepository = staffRepository;
         this.eventRepository = eventRepository;
         this.passwordEncoder = passwordEncoder;
+        this.customerRepository = customerRepository;
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
+        LOGGER.info("Starting Data Generation..");
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                LOGGER.info("\n\nData Generation Complete.\n");
+            }
+        });
         generateAdmins();
         generateCategories();
         generateLocations();
         generateStaff();
         generateEvents();
+        generateCustomersAndTickets();
     }
 
     private void generateAdmins() {
@@ -143,6 +167,7 @@ public class DataGenerationService implements CommandLineRunner {
             event.setDate(LocalDateTime.now().plusDays(random.nextInt(30)));
             event.setTotalSeats(200 + random.nextInt(100));
             event.setAvailableSeats(event.getTotalSeats());
+            event.setTicketPrice(Math.round((50 + random.nextDouble() * 150) * 100.0) / 100.0);
             event.setCategory(categories.get(random.nextInt(categories.size())));
             event.setLocation(locations.get(random.nextInt(locations.size())));
             // Randomly assigning 3-5 staff members
@@ -153,4 +178,39 @@ public class DataGenerationService implements CommandLineRunner {
             eventRepository.save(event);
         }
     }
+
+    protected void generateCustomersAndTickets() {
+        Random random = new Random();
+        List<Event> events = eventRepository.findAll();
+        List<Customer> customers = new ArrayList<>();
+        // Generate 10 customers
+        for (int i = 0; i < 10; i++) {
+            Customer customer = new Customer(
+                    "customer" + (i + 1),
+                    "customer" + (i + 1) + "@example.com",
+                    "password" + (i + 1),
+                    "123-456-789" + i,
+                    "Street " + (i + 1),
+                    "City" + (i + 1),
+                    "State" + (i + 1),
+                    "12345"
+            );
+            customers.add(customer);
+        }
+        customerRepository.saveAll(customers);
+        for (int i = 0; i < 20; i++) {
+            Event event = events.get(random.nextInt(events.size())); // Randomly select an event
+            int quantity = 1 + random.nextInt(5); // Random quantity between 1 and 5
+            if (event.getAvailableSeats() >= quantity) {
+                Customer customer = customers.get(random.nextInt(customers.size()));
+                Ticket ticket = new Ticket(quantity, event, PaymentMethod.CREDIT_CARD);
+                customer.addTicket(ticket);
+                event.setAvailableSeats(event.getAvailableSeats() - quantity);
+            }
+        }
+        customerRepository.saveAll(customers);
+        eventRepository.saveAll(events);
+    }
+
+
 }

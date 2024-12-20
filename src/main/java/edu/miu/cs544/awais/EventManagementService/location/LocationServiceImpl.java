@@ -66,9 +66,10 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void deleteLocation(Long emId) {
+    public ResponseEntity<Void> deleteLocation(Long emId) {
         Location location = findLocationById(emId);
         locationRepository.delete(location);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

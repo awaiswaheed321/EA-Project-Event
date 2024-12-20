@@ -54,7 +54,6 @@ public class LocationController {
     @DeleteMapping("/{emId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteLocation(@PathVariable Long emId) {
-        locationService.deleteLocation(emId);
-        return ResponseEntity.noContent().build();
+        return locationService.deleteLocation(emId);
     }
 }
