@@ -2,11 +2,13 @@ package edu.miu.cs544.awais.EventManagementService.staff.dto;
 
 import edu.miu.cs544.awais.EventManagementService.staff.StaffRole;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 public class CreateStaffDTO {
     @NotEmpty(message = "Staff Name must not be empty")
     private String username;
     @NotEmpty(message = "Staff Email must not be empty")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Invalid email format")
     private String email;
     @NotEmpty(message = "Staff password must not be empty")
     private String password;

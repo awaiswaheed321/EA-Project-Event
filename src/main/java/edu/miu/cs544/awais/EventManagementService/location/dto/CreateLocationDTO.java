@@ -1,6 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.location.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 public class CreateLocationDTO {
     @NotEmpty(message = "Location Name can not be empty")
@@ -12,6 +13,7 @@ public class CreateLocationDTO {
     @NotEmpty(message = "Location State can not be empty")
     private String state;
     @NotEmpty(message = "Location Zip can not be empty")
+    @Pattern(regexp = "^[0-9]{5}$", message = "Zip code must be 5 digits")
     private String zip;
 
     public CreateLocationDTO() {
