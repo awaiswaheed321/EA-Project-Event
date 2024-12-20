@@ -10,6 +10,7 @@ import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoun
 import edu.miu.cs544.awais.EventManagementService.location.LocationRepository;
 import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import edu.miu.cs544.awais.EventManagementService.shared.EventSpecification;
+import edu.miu.cs544.awais.EventManagementService.shared.Utils;
 import edu.miu.cs544.awais.EventManagementService.staff.StaffRepository;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,7 +36,7 @@ public class EventFactory {
         Category category = getCategoryById(request.getCategoryId());
         Location location = getLocationById(request.getLocationId());
         List<Staff> staff = getStaffByIds(request.getStaffIds());
-        return new Event(request.getName(), request.getDescription(), request.getDate(), request.getTotalSeats(),
+        return new Event(request.getName(), request.getDescription(), Utils.convertStringToLocalDateTime(request.getDate()), request.getTotalSeats(),
                 request.getTotalSeats(), request.getTicketPrice(), staff, location, category);
     }
 
@@ -47,7 +48,7 @@ public class EventFactory {
             event.setDescription(request.getDescription());
         }
         if (request.getDate() != null) {
-            event.setDate(request.getDate());
+            event.setDate(Utils.convertStringToLocalDateTime(request.getDate()));
         }
         if (request.getLocationId() != null) {
             Location location = getLocationById(request.getLocationId());
@@ -67,10 +68,10 @@ public class EventFactory {
     public Specification<Event> generateEventSpecification(EventFilterDTO request) {
         Specification<Event> specification = Specification.where(null);
         if (request.getBeforeDate() != null) {
-            specification = specification.and(EventSpecification.beforeDatePredicate(request.getBeforeDate()));
+            specification = specification.and(EventSpecification.beforeDatePredicate(Utils.convertStringToLocalDateTime(request.getBeforeDate())));
         }
         if (request.getAfterDate() != null) {
-            specification = specification.and(EventSpecification.afterDatePredicate(request.getAfterDate()));
+            specification = specification.and(EventSpecification.afterDatePredicate(Utils.convertStringToLocalDateTime(request.getAfterDate())));
         }
         if (request.getName() != null && !request.getName().isEmpty()) {
             specification = specification.and(EventSpecification.nameLikePredicate(request.getName()));
@@ -107,8 +108,9 @@ public class EventFactory {
     }
 
     private List<Staff> getStaffByIds(List<Long> emIds) {
-        List<Staff> staffList = staffRepository.findAllById(emIds);
-        List<Long> missingIds = emIds.stream()
+        List<Long> uniqueIds = emIds.stream().distinct().toList();
+        List<Staff> staffList = staffRepository.findAllById(uniqueIds);
+        List<Long> missingIds = uniqueIds.stream()
                 .filter(id -> staffList.stream().noneMatch(staff -> staff.getId().equals(id)))
                 .toList();
         if (!missingIds.isEmpty()) {

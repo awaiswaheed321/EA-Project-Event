@@ -55,6 +55,10 @@ public class EventServiceImpl implements EventService {
     @Override
     public ResponseEntity<Void> deleteEvent(Long emId) {
         Event event = findEventById(emId);
+        if(!event.getAvailableSeats().equals(event.getTotalSeats()) ) {
+            throw new IllegalArgumentException("Tickets sold already. Can not be deleted.");
+        }
+        event.getStaff().clear();
         eventRepository.delete(event);
         return ResponseEntity.noContent().build();
     }

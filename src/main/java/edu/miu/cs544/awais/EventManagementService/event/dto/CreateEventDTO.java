@@ -1,9 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.event.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +13,8 @@ public class CreateEventDTO {
     private String description;
 
     @NotNull(message = "Event Date must not be null")
-    private LocalDateTime date;
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "Invalid date format. Use 'yyyy-MM-dd'.")
+    private String date;
 
     @NotNull(message = "Total seats cannot be null")
     @Min(value = 6, message = "Total seats must be greater than 5")
@@ -57,11 +55,11 @@ public class CreateEventDTO {
         this.description = description;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

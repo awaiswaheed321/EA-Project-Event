@@ -6,7 +6,7 @@ import java.util.List;
 public class UpdateEventDTO {
     private String name;
     private String description;
-    private LocalDateTime date;
+    private String date;
     private Long locationId;
     private Long categoryId;
     private List<Long> staffIds;
@@ -30,11 +30,11 @@ public class UpdateEventDTO {
         this.description = description;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

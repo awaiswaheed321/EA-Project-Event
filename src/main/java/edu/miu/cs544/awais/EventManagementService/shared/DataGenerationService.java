@@ -28,10 +28,7 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Profile("data")
@@ -159,7 +156,6 @@ public class DataGenerationService implements CommandLineRunner {
         List<Category> categories = categoryRepository.findAll();
         List<Location> locations = locationRepository.findAll();
         List<Staff> staffMembers = staffRepository.findAll();
-
         for (int i = 0; i < 10; i++) {
             Event event = new Event();
             event.setName("Event #" + (i + 1));
@@ -170,14 +166,17 @@ public class DataGenerationService implements CommandLineRunner {
             event.setTicketPrice(Math.round((50 + random.nextDouble() * 150) * 100.0) / 100.0);
             event.setCategory(categories.get(random.nextInt(categories.size())));
             event.setLocation(locations.get(random.nextInt(locations.size())));
-            // Randomly assigning 3-5 staff members
-            int numberOfStaff = 3 + random.nextInt(3); // Staff between 3 to 5
-            for (int j = 0; j < numberOfStaff; j++) {
-                event.getStaff().add(staffMembers.get(random.nextInt(staffMembers.size())));
+            Set<Staff> assignedStaff = new HashSet<>();
+            int numberOfStaff = 3 + random.nextInt(3);
+            while (assignedStaff.size() < numberOfStaff) {
+                Staff randomStaff = staffMembers.get(random.nextInt(staffMembers.size()));
+                assignedStaff.add(randomStaff);
             }
+            event.getStaff().addAll(assignedStaff);
             eventRepository.save(event);
         }
     }
+
 
     protected void generateCustomersAndTickets() {
         Random random = new Random();
