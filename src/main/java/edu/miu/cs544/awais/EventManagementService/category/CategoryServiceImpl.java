@@ -23,7 +23,6 @@ public class CategoryServiceImpl implements CategoryService {
         this.eventService = eventService;
     }
 
-
     @Override
     public ResponseEntity<Category> createCategory(CreateCategoryDTO request) {
         checkIfCategoryExistsByName(request.getName());
@@ -69,6 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ResponseEntity<Void> deleteCategory(Long emId) {
         Category category = findCategoryById(emId);
+        checkCategoryUsage(category);
         categoryRepository.delete(category);
         return ResponseEntity.noContent().build();
     }
@@ -78,6 +78,12 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = findCategoryById(emId);
         List<Event> events = eventService.searchEvent(EventSpecification.categoryPredicate(category.getId()));
         return ResponseEntity.ok(events);
+    }
+
+    private void checkCategoryUsage(Category category) {
+        if (eventService.getEventCountByCategory(category) != 0) {
+            throw new IllegalArgumentException("Category already in use: " + category.getName());
+        }
     }
 
     public Category findCategoryById(Long emId) {

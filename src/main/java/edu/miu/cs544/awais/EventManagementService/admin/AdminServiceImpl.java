@@ -3,8 +3,8 @@ package edu.miu.cs544.awais.EventManagementService.admin;
 import edu.miu.cs544.awais.EventManagementService.admin.domain.Admin;
 import edu.miu.cs544.awais.EventManagementService.admin.dto.CreateAdminDTO;
 import edu.miu.cs544.awais.EventManagementService.admin.dto.UpdateAdminDTO;
+import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
 import edu.miu.cs544.awais.EventManagementService.exception.custom.InsufficientAdminsException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,15 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public ResponseEntity<Admin> createAdmin(CreateAdminDTO request) {
+        checkIfEmailExists(request.getEmail());
         Admin admin = new Admin(request.getUsername(), request.getEmail(), request.getPassword());
         return new ResponseEntity<>(adminRepository.save(admin), HttpStatus.CREATED);
+    }
+
+    private void checkIfEmailExists(String email) {
+        if(adminRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email " + email + " already exists");
+        }
     }
 
     @Override

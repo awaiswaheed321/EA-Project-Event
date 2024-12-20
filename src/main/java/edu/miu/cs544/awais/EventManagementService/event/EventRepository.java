@@ -1,6 +1,8 @@
 package edu.miu.cs544.awais.EventManagementService.event;
 
+import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
 import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
+import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +19,7 @@ public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecific
     @Query(name = "Event.findUpcoming")
     List<Event> findUpcomingEvents();
 
+    long countByCategory(Category category);
+
+    long countByLocation(Location location);
 }

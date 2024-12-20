@@ -30,6 +30,12 @@ public class CustomerServiceImpl implements CustomerService {
         return new ResponseEntity<>(customerRepository.save(customer), HttpStatus.CREATED);
     }
 
+    private void checkEmailExists(String email) {
+        if(customerRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email " + email + " already exists");
+        }
+    }
+
     @Override
     public ResponseEntity<Customer> getCustomerById(Long id) {
         SecurityUtils.verifyCustomer(id);

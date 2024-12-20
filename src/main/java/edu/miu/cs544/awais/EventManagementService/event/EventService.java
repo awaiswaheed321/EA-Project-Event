@@ -1,9 +1,11 @@
 package edu.miu.cs544.awais.EventManagementService.event;
 
+import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
 import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.event.dto.CreateEventDTO;
 import edu.miu.cs544.awais.EventManagementService.event.dto.EventFilterDTO;
 import edu.miu.cs544.awais.EventManagementService.event.dto.UpdateEventDTO;
+import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import jakarta.validation.Valid;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
@@ -26,4 +28,8 @@ public interface EventService {
     ResponseEntity<List<Event>> findEventsWithMinimumSeats(int minSeats);
 
     ResponseEntity<List<Event>> findUpcomingEvents();
+
+    Long getEventCountByCategory(Category category);
+
+    Long getEventCountByLocation(Location location);
 }

@@ -154,10 +154,6 @@ public class Event {
         this.category = category;
     }
 
-    public Integer getVersion() {
-        return version;
-    }
-
     public void setVersion(Integer version) {
         this.version = version;
     }

@@ -1,10 +1,12 @@
 package edu.miu.cs544.awais.EventManagementService.event;
 
+import edu.miu.cs544.awais.EventManagementService.category.domain.Category;
 import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.event.dto.CreateEventDTO;
 import edu.miu.cs544.awais.EventManagementService.event.dto.EventFilterDTO;
 import edu.miu.cs544.awais.EventManagementService.event.dto.UpdateEventDTO;
 import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.location.domain.Location;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -70,6 +72,16 @@ public class EventServiceImpl implements EventService {
     @Override
     public ResponseEntity<List<Event>> findUpcomingEvents() {
         return ResponseEntity.ok(eventRepository.findUpcomingEvents());
+    }
+
+    @Override
+    public Long getEventCountByCategory(Category category) {
+        return eventRepository.countByCategory(category);
+    }
+
+    @Override
+    public Long getEventCountByLocation(Location location) {
+        return eventRepository.countByLocation(location);
     }
 
     private Event findEventById(Long emId) {

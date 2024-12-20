@@ -68,6 +68,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public ResponseEntity<Void> deleteLocation(Long emId) {
         Location location = findLocationById(emId);
+        checkLocationUsage(location);
         locationRepository.delete(location);
         return ResponseEntity.noContent().build();
     }
@@ -77,6 +78,12 @@ public class LocationServiceImpl implements LocationService {
         Location location = findLocationById(emId);
         List<Event> events = eventService.searchEvent(EventSpecification.locationPredicate(location.getId()));
         return ResponseEntity.ok(events);
+    }
+
+    private void checkLocationUsage(Location location) {
+        if(eventService.getEventCountByLocation(location) != 0) {
+            throw new IllegalArgumentException("Location already in use: " + location.getName());
+        }
     }
 
     private Location findLocationById(Long emId) {
