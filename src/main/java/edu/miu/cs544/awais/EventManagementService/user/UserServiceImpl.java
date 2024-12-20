@@ -13,14 +13,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtHelper jwtHelper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager,
+    public UserServiceImpl(AuthenticationManager authenticationManager,
                            JwtHelper jwtHelper) {
-        this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtHelper = jwtHelper;
     }
@@ -33,8 +31,7 @@ public class UserServiceImpl implements UserService {
         );
         final String accessToken = jwtHelper.generateToken(loginRequest.getEmail());
         final String refreshToken = jwtHelper.generateRefreshToken(loginRequest.getEmail());
-        User user = userRepository.findByEmail(loginRequest.getEmail());
-        LoginResponseDto res = new LoginResponseDto(accessToken, refreshToken, user);
+        LoginResponseDto res = new LoginResponseDto(accessToken, refreshToken);
         return ResponseEntity.ok(res);
     }
 
@@ -46,7 +43,6 @@ public class UserServiceImpl implements UserService {
         }
         String email = jwtHelper.getSubject(refreshTokenRequest.getRefreshToken());
         final String accessToken = jwtHelper.generateToken(email);
-        User user = userRepository.findByEmail(email);
-        return ResponseEntity.ok(new LoginResponseDto(accessToken, refreshTokenRequest.getRefreshToken(), user));
+        return ResponseEntity.ok(new LoginResponseDto(accessToken, refreshTokenRequest.getRefreshToken()));
     }
 }

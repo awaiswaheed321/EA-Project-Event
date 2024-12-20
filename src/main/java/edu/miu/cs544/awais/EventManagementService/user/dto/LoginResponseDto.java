@@ -6,15 +6,13 @@ import edu.miu.cs544.awais.EventManagementService.user.domain.User;
 public class LoginResponseDto {
     private String accessToken;
     private String refreshToken;
-    private User user;
 
     public LoginResponseDto() {
     }
 
-    public LoginResponseDto(String accessToken, String refreshToken, User user) {
+    public LoginResponseDto(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        this.user = user;
     }
 
     @Override
@@ -22,7 +20,6 @@ public class LoginResponseDto {
         return "LoginResponseDto{" +
                 "accessToken='" + accessToken + '\'' +
                 ", refreshToken='" + refreshToken + '\'' +
-                ", user=" + user +
                 '}';
     }
 
@@ -40,13 +37,5 @@ public class LoginResponseDto {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
