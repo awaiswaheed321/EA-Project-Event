@@ -188,7 +188,7 @@ public class DataGenerationService implements CommandLineRunner {
             Customer customer = new Customer(
                     "customer" + (i + 1),
                     "customer" + (i + 1) + "@example.com",
-                    "password" + (i + 1),
+                    passwordEncoder.encode("password" + (i + 1)),
                     "123-456-789" + i,
                     "Street " + (i + 1),
                     "City" + (i + 1),
