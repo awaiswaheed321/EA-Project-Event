@@ -38,7 +38,7 @@ public class TicketServiceImpl implements TicketService {
         if (event.getAvailableSeats() < createTicketDTO.getQuantity()) {
             throw new IllegalArgumentException("Not enough available seats for this event.");
         }
-        Ticket ticket = new Ticket(createTicketDTO.getQuantity(), event, createTicketDTO.getPaymentMethod());
+        Ticket ticket = ticketRepository.save(new Ticket(createTicketDTO.getQuantity(), event, createTicketDTO.getPaymentMethod()));
         customer.addTicket(ticket);
         event.setAvailableSeats(event.getAvailableSeats() - createTicketDTO.getQuantity());
         customerRepository.save(customer);
@@ -59,6 +59,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<Ticket>> getTicketsByEventId(Long eventId) {
         Event event = findEventById(eventId);
         return ResponseEntity.ok(ticketRepository.findByEventId(event.getId()));
