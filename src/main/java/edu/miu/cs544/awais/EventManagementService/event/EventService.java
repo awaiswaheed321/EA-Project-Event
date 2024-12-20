@@ -32,4 +32,6 @@ public interface EventService {
     Long getEventCountByCategory(Category category);
 
     Long getEventCountByLocation(Location location);
+
+    Event saveEvent(Event event);
 }

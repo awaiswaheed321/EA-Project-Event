@@ -2,6 +2,7 @@ package edu.miu.cs544.awais.EventManagementService.staff.dto;
 
 import edu.miu.cs544.awais.EventManagementService.staff.StaffRole;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public class CreateStaffDTO {
@@ -12,7 +13,7 @@ public class CreateStaffDTO {
     private String email;
     @NotEmpty(message = "Staff password must not be empty")
     private String password;
-    @NotEmpty(message = "Staff Role must not be empty")
+    @NotNull(message = "Staff Role must not be null")
     private StaffRole staffRole;
 
     public CreateStaffDTO() {

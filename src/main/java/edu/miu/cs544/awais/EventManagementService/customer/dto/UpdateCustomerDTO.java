@@ -1,19 +1,12 @@
 package edu.miu.cs544.awais.EventManagementService.customer.dto;
 
 public class UpdateCustomerDTO {
-
     private String username;
-
     private String password;
-
     private String phoneNumber;
-
     private String street;
-
     private String city;
-
     private String state;
-
     private String zip;
 
     public UpdateCustomerDTO() {

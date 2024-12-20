@@ -7,6 +7,7 @@ import edu.miu.cs544.awais.EventManagementService.shared.EventSpecification;
 import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.CreateStaffDTO;
 import edu.miu.cs544.awais.EventManagementService.staff.dto.UpdateStaffDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -72,8 +73,15 @@ public class StaffServiceImpl implements StaffService {
         }
     }
 
+    @Override
+    @Transactional
     public ResponseEntity<Void> deleteStaff(Long emId) {
         Staff staff = findStaffById(emId);
+        List<Event> events = eventService.searchEvent(EventSpecification.staffInPredicate(List.of(staff.getId())));
+        for (Event event : events) {
+            event.getStaff().remove(staff);
+            eventService.saveEvent(event);
+        }
         staffRepository.delete(staff);
         return ResponseEntity.noContent().build();
     }

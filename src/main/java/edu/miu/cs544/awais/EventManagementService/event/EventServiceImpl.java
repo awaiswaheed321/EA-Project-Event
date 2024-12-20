@@ -30,7 +30,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public ResponseEntity<Event> createEvent(CreateEventDTO request) {
         Event event = eventFactory.createEvent(request);
-        return new ResponseEntity<>(eventRepository.save(event), HttpStatus.OK);
+        return new ResponseEntity<>(saveEvent(event), HttpStatus.OK);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class EventServiceImpl implements EventService {
     public ResponseEntity<Event> updateEvent(Long emId, UpdateEventDTO request) {
         Event event = findEventById(emId);
         eventFactory.updateEventData(event, request);
-        return new ResponseEntity<>(eventRepository.save(event), HttpStatus.OK);
+        return new ResponseEntity<>(saveEvent(event), HttpStatus.OK);
     }
 
     @Override
@@ -82,6 +82,11 @@ public class EventServiceImpl implements EventService {
     @Override
     public Long getEventCountByLocation(Location location) {
         return eventRepository.countByLocation(location);
+    }
+
+    @Override
+    public Event saveEvent(Event event) {
+        return eventRepository.save(event);
     }
 
     private Event findEventById(Long emId) {

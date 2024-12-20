@@ -3,6 +3,7 @@ package edu.miu.cs544.awais.EventManagementService.customer;
 import edu.miu.cs544.awais.EventManagementService.customer.domain.Customer;
 import edu.miu.cs544.awais.EventManagementService.customer.dto.CreateCustomerDTO;
 import edu.miu.cs544.awais.EventManagementService.customer.dto.UpdateCustomerDTO;
+import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
 import edu.miu.cs544.awais.EventManagementService.exception.custom.UnauthorizedAccessException;
 import edu.miu.cs544.awais.EventManagementService.security.SecurityUtils;
 import edu.miu.cs544.awais.EventManagementService.shared.UserRole;
@@ -26,6 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public ResponseEntity<Customer> createCustomer(CreateCustomerDTO customerDTO) {
+        checkEmailExists(customerDTO.getEmail());
         Customer customer = customerFactory.createCustomer(customerDTO);
         return new ResponseEntity<>(customerRepository.save(customer), HttpStatus.CREATED);
     }
@@ -63,6 +65,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private Customer findCustomerById(Long emId) {
-        return customerRepository.findById(emId).orElseThrow(() -> new RuntimeException("Customer not found: " + emId));
+        return customerRepository.findById(emId).orElseThrow(() -> new EntityNotFoundException("Customer not found: " + emId));
     }
 }
