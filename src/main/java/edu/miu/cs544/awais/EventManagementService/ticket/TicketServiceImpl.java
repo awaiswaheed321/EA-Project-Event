@@ -5,6 +5,8 @@ import edu.miu.cs544.awais.EventManagementService.customer.domain.Customer;
 import edu.miu.cs544.awais.EventManagementService.event.EventRepository;
 import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
 import edu.miu.cs544.awais.EventManagementService.exception.custom.EntityNotFoundException;
+import edu.miu.cs544.awais.EventManagementService.jms.JmsProducer;
+import edu.miu.cs544.awais.EventManagementService.jms.Message;
 import edu.miu.cs544.awais.EventManagementService.ticket.domain.Ticket;
 import edu.miu.cs544.awais.EventManagementService.ticket.dto.CreateTicketDTO;
 import jakarta.transaction.Transactional;
@@ -20,13 +22,15 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
     private final EventRepository eventRepository;
     private final CustomerRepository customerRepository;
+    private final JmsProducer jmsProducer;
 
     @Autowired
     public TicketServiceImpl(TicketRepository ticketRepository, EventRepository eventRepository,
-                             CustomerRepository customerRepository) {
+                             CustomerRepository customerRepository, JmsProducer jmsProducer) {
         this.ticketRepository = ticketRepository;
         this.eventRepository = eventRepository;
         this.customerRepository = customerRepository;
+        this.jmsProducer = jmsProducer;
     }
 
     @Override
@@ -38,11 +42,14 @@ public class TicketServiceImpl implements TicketService {
         if (event.getAvailableSeats() < createTicketDTO.getQuantity()) {
             throw new IllegalArgumentException("Not enough available seats for this event.");
         }
-        Ticket ticket = ticketRepository.save(new Ticket(createTicketDTO.getQuantity(), event, createTicketDTO.getPaymentMethod()));
+        Ticket ticket = ticketRepository.save(new Ticket(createTicketDTO.getQuantity(), event,
+                createTicketDTO.getPaymentMethod()));
         customer.addTicket(ticket);
         event.setAvailableSeats(event.getAvailableSeats() - createTicketDTO.getQuantity());
         customerRepository.save(customer);
         eventRepository.save(event);
+        jmsProducer.sendMessage(new Message(event.getId(), event.getName(), ticket.getId(), customer.getId(),
+                customer.getEmail()));
         return new ResponseEntity<>(ticket, HttpStatus.CREATED);
     }
 
