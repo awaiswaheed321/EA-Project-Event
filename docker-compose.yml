@@ -1,0 +1,11 @@
+services:
+  activemq-artemis:
+    image: apache/activemq-artemis:latest
+    ports:
+      - "8161:8161"  # Web console port
+      - "61616:61616" # Messaging port
+    volumes:
+      - artemis-data:/var/lib/artemis-instance  # Persist data
+
+volumes:
+  artemis-data:
