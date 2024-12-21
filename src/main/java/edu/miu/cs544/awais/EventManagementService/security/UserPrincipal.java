@@ -1,6 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.security;
 
-import edu.miu.cs544.awais.EventManagementService.user.domain.User;
+import edu.miu.cs544.awais.EventManagementService.domain.user.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

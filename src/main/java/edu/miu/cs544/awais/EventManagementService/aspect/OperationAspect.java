@@ -1,6 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.aspect;
 
-import edu.miu.cs544.awais.EventManagementService.operation.OperationService;
+import edu.miu.cs544.awais.EventManagementService.domain.operation.OperationService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

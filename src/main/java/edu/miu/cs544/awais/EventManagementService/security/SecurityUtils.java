@@ -1,6 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.security;
 
-import edu.miu.cs544.awais.EventManagementService.exception.custom.UnauthorizedAccessException;
+import edu.miu.cs544.awais.EventManagementService.domain.exception.custom.UnauthorizedAccessException;
 import edu.miu.cs544.awais.EventManagementService.shared.UserRole;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

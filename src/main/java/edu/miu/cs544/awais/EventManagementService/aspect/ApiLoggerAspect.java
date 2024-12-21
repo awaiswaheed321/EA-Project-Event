@@ -34,7 +34,7 @@ public class ApiLoggerAspect {
         return response;
     }
 
-    @Pointcut("within(edu.miu.cs544.awais.EventManagementService.exception.GlobalExceptionHandler)")
+    @Pointcut("within(edu.miu.cs544.awais.EventManagementService.domain.exception.GlobalExceptionHandler)")
     public void exceptionHandlerMethods() {
     }
 

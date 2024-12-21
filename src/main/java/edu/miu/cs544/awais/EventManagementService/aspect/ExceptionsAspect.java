@@ -1,6 +1,6 @@
 package edu.miu.cs544.awais.EventManagementService.aspect;
 
-import edu.miu.cs544.awais.EventManagementService.exception.ExceptionsEntityService;
+import edu.miu.cs544.awais.EventManagementService.domain.exception.ExceptionsEntityService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;

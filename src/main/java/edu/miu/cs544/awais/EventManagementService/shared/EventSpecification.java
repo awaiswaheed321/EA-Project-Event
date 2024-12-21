@@ -1,7 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.shared;
 
-import edu.miu.cs544.awais.EventManagementService.event.domain.Event;
-import edu.miu.cs544.awais.EventManagementService.staff.domain.Staff;
+import edu.miu.cs544.awais.EventManagementService.domain.event.domain.Event;
+import edu.miu.cs544.awais.EventManagementService.domain.staff.domain.Staff;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 

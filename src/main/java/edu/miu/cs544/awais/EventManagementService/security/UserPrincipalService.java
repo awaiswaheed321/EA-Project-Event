@@ -1,7 +1,7 @@
 package edu.miu.cs544.awais.EventManagementService.security;
 
-import edu.miu.cs544.awais.EventManagementService.user.domain.User;
-import edu.miu.cs544.awais.EventManagementService.user.UserRepository;
+import edu.miu.cs544.awais.EventManagementService.domain.user.domain.User;
+import edu.miu.cs544.awais.EventManagementService.domain.user.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
